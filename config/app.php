@@ -165,6 +165,10 @@ return [
         *HTML Form
         */
         Collective\Html\HtmlServiceProvider::class,
+        /*
+        *For CKEditor
+        */
+        Unisharp\Ckeditor\ServiceProvider::class,
 
         /*
          * Package Service Providers...
