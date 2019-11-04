@@ -8,7 +8,7 @@
             @foreach ($posts as $post)
             <li class="list-group-item">
                 <a href="/posts/{{$post->id}}" style="text-decoration:none; color:black" ><h3>{{$post->title}}</h3>
-                <small>Written on {{$post->created_at}}</small></a>
+                <small>Written on {{$post->created_at}} by {{$post->user->name}}</small></a>
             </li>    
             @endforeach
         </ul>

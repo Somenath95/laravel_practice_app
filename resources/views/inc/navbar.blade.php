@@ -19,11 +19,7 @@
               <a class="nav-link" href="/posts">Blogs</a>
           </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="nav-item {{Request::segment(1)== 'posts' && Request::segment(2)== 'create' ? 'active': null}}">
-            <a class="nav-link" href="/posts/create">Create Post</a>
-          </li>
-        </ul>
+        
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -43,17 +39,20 @@
                       {{ Auth::user()->name }} <span class="caret"></span>
                   </a>
 
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                      document.getElementById('logout-form').submit();">
-                          {{ __('Logout') }}
-                      </a>
-
+                  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                      <li> 
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                      </li>  
+                     
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                           @csrf
                       </form>
-                  </div>
+                    </ul>
               </li>
           @endguest
       </ul>     

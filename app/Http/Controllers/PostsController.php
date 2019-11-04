@@ -8,6 +8,17 @@ use App\Post;
 class PostsController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -18,7 +29,7 @@ class PostsController extends Controller
         // $posts = Post::orderBy('title', 'asc')->get();
         /*For Pagination*/
         $posts = Post::orderBy('title', 'asc')->paginate(10);
-        return view('posts.index')->with('posts', $posts);
+        return view('posts.index')->with(compact('posts'));
     }
 
     /**
@@ -46,8 +57,9 @@ class PostsController extends Controller
 
         //Create Post
         $post = new Post;
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->user_id = auth()->user()->id;
         $post->save();
 
         return redirect('/posts')->with('success', 'New Post Created');
@@ -74,6 +86,10 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post =  Post::find($id);
+        if (auth()->user()->id != $post->user_id) {
+            return abort(401);
+            // return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
         return view('posts.edit')->with('post', $post);
     }
 
@@ -94,8 +110,8 @@ class PostsController extends Controller
 
         //Create Post
         $post = Post::find($id);
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
+        $post->title = $request->title;
+        $post->body = $request->body;
         $post->save();
 
         return redirect('/posts')->with('success', 'Your Post Has Been Updated');
